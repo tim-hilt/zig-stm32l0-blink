@@ -17,6 +17,7 @@ pub fn build(b: *std.Build) void {
     });
     exe.setLinkerScript(b.path("STM32L011K4Tx_FLASH.ld"));
     exe.addAssemblyFile(b.path("src/startup_stm32l011xx.s"));
+    exe.addIncludePath(b.path("inc"));
 
     b.installArtifact(exe);
 }
