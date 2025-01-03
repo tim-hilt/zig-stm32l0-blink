@@ -1,5 +1,6 @@
 const cmsis = @cImport({
-    @cInclude("stm32l0xx.h");
+    @cDefine("STM32L011xx", {}); // TODO: This could be a build option
+    @cInclude("src/stm32l0xx.h");
 });
 
 fn init_led() void {
