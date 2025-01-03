@@ -3,24 +3,27 @@ const cmsis = @cImport({
 });
 
 fn init_led() void {
-    const RCC_IOPENR: *u32 = @ptrFromInt(cmsis.RCC.*.IOPENR);
-    const GPIOB_MODER: *u32 = @ptrFromInt(cmsis.GPIOB.*.MODER);
+    const RCC_IOPENR: *volatile u32 = @ptrFromInt(0x4002102C);
+    const GPIOB_MODER: *volatile u32 = @ptrFromInt(0x50000400);
     RCC_IOPENR.* |= cmsis.RCC_IOPENR_GPIOBEN;
     GPIOB_MODER.* ^= cmsis.GPIO_MODER_MODE3_1;
 }
 
 fn toggle_led() void {
-    const GPIOB_BSRR: *u32 = @ptrFromInt(cmsis.GPIOB.*.BSRR);
+    const GPIOB_BSRR: *volatile u32 = @ptrFromInt(0x50000418);
 
     var i: usize = 0;
-    while (i < 10000) {
+    const ticks_delay = 100000;
+    while (i < ticks_delay) {
+        asm volatile ("nop");
         i += 1;
     }
     // toggle off
     GPIOB_BSRR.* = cmsis.GPIO_BSRR_BR_3;
 
     i = 0;
-    while (i < 10000) {
+    while (i < ticks_delay) {
+        asm volatile ("nop");
         i += 1;
     }
     // toggle on
