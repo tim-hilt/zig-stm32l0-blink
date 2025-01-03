@@ -28,7 +28,7 @@ fn toggle_led() void {
     GPIOB_BSRR.* = cmsis.GPIO_BSRR_BS_3;
 }
 
-export fn main() void {
+export fn _start() void {
     init_led();
 
     while (true) {
