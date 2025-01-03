@@ -1,5 +1,4 @@
 const cmsis = @cImport({
-    @cDefine("STM32L011xx", {});
     @cInclude("stm32l0xx.h");
 });
 
