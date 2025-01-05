@@ -18,4 +18,17 @@ pub fn build(b: *std.Build) void {
     exe.root_module.addCMacro("STM32L011xx", "");
 
     b.installArtifact(exe);
+
+    const tool_run = b.addSystemCommand(&.{"/Applications/STMicroelectronics/STM32Cube/STM32CubeProgrammer/STM32CubeProgrammer.app/Contents/MacOs/bin/STM32_Programmer_CLI"});
+    tool_run.addArgs(&.{
+        "-c",
+        "port=SWD",
+        "-w",
+        b.fmt("{s}/bin/{s}", .{ b.install_prefix, exe.name }),
+        "-s",
+        "0x08000000",
+    });
+
+    const flash_step = b.step("flash", "Flash the mcu");
+    flash_step.dependOn(&tool_run.step);
 }
