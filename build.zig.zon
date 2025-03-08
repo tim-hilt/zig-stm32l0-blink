@@ -1,0 +1,16 @@
+.{
+    .name = "stm32l011-blinky",
+    .version = "0.0.0",
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+        "STM32L011K4Tx_FLASH.ld",
+    },
+    .dependencies = .{
+        .microzig = .{
+            .url = "https://github.com/ZigEmbeddedGroup/microzig/archive/refs/tags/0.13.2.tar.gz",
+            .hash = "122084531ab8ba877a0178fb177a61f6dc9bed56bdcdfb11ad362f352680c04d84cb",
+        },
+    },
+}

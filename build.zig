@@ -1,6 +1,7 @@
 const std = @import("std");
 
 pub fn build(b: *std.Build) void {
+    _ = b.dependency("microzig", .{});
     const exe = b.addExecutable(.{
         .name = "blink.elf",
         .root_source_file = b.path("src/main.zig"),
@@ -14,8 +15,6 @@ pub fn build(b: *std.Build) void {
     });
     exe.setLinkerScript(b.path("STM32L011K4Tx_FLASH.ld"));
     exe.addAssemblyFile(b.path("src/startup_stm32l011xx.s"));
-    exe.addIncludePath(b.path("inc"));
-    exe.root_module.addCMacro("STM32L011xx", "");
 
     b.installArtifact(exe);
 
