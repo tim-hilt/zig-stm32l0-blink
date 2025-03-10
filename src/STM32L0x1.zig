@@ -1,5 +1,18 @@
-const micro = @import("microzig");
-const mmio = micro.mmio;
+const mmio = @import("mmio.zig");
+
+pub const Handler = extern union {
+    C: *const fn () callconv(.C) void,
+    Naked: *const fn () callconv(.Naked) void,
+    // Interrupt is not supported on arm
+};
+
+pub const unhandled = Handler{
+    .C = struct {
+        fn tmp() callconv(.C) noreturn {
+            @panic("unhandled interrupt");
+        }
+    }.tmp,
+};
 
 pub const devices = struct {
     /// STM32L0x1
@@ -14,9 +27,6 @@ pub const devices = struct {
             pub const @"cpu.vendorSystickConfig" = "false";
         };
         pub const VectorTable = extern struct {
-            const Handler = micro.interrupt.Handler;
-            const unhandled = micro.interrupt.unhandled;
-
             initial_stack_pointer: u32,
             Reset: Handler,
             NMI: Handler = unhandled,

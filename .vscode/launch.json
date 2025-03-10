@@ -1,0 +1,13 @@
+{
+  "configurations": [
+    {
+      "cwd": "${workspaceFolder}",
+      "executable": "${workspaceFolder}/zig-out/bin/blink.elf",
+      "name": "Debug with ST-Link",
+      "request": "launch",
+      "type": "cortex-debug",
+      "runToEntryPoint": "_start",
+      "servertype": "stutil"
+    }
+  ]
+}

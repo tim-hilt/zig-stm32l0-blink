@@ -1,7 +1,6 @@
 const std = @import("std");
 
 pub fn build(b: *std.Build) void {
-    _ = b.dependency("microzig", .{});
     const exe = b.addExecutable(.{
         .name = "blink.elf",
         .root_source_file = b.path("src/main.zig"),
