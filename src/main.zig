@@ -3,6 +3,7 @@ const std = @import("std");
 const regs = @import("stm32l0x1.zig").devices.STM32L0x1.peripherals;
 const Led = @import("led.zig");
 const Uart = @import("uart.zig");
+const Timer = @import("timer.zig");
 
 fn increase_clock_speed() void {
     regs.Flash.ACR.modify(.{
@@ -34,19 +35,11 @@ export fn _start() void {
 
     const uart = Uart.init();
     var led = Led.init();
-
-    var i: usize = 0;
-    const ticks_delay = 100000;
+    const timer = Timer.init();
 
     while (true) {
-        // TODO: Use timer
-        while (i < ticks_delay) {
-            asm volatile ("nop");
-            i += 1;
-        }
-
+        timer.sleep_ms(1000);
         led.toggle();
-        std.fmt.format(uart, "LED is {s}\n", .{if (led.is_on) "on" else "off"}) catch break;
-        i = 0;
+        std.fmt.format(uart, "Timer at {d}\n", .{timer.read()}) catch break;
     }
 }
